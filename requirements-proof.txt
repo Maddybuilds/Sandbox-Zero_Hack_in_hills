@@ -1,0 +1,2 @@
+# Optional portable evidence signing. Core fixtures remain standard-library only.
+cryptography>=44,<52

@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sandbox Zero | Container validation</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f5f2eb;color:#19323e;font:16px/1.65 "Segoe UI",Arial,sans-serif}main{max-width:1100px;margin:auto;padding:40px 24px}header{border-top:4px solid #2e6172;padding-top:24px}small,code{font-family:Consolas,monospace;overflow-wrap:anywhere}h1{font-size:clamp(30px,5vw,56px);line-height:1.1;letter-spacing:-1.7px}.hero{padding:24px;background:#18333f;color:white;border-radius:12px}.hero strong{font-size:46px}.scope{padding:20px;background:#e6eeea;border-left:4px solid #517b87}table{width:100%;border-collapse:collapse;background:white}th,td{padding:14px;border-bottom:1px solid #dce1db;text-align:left;vertical-align:top}th{font-size:12px;text-transform:uppercase}.pass{color:#226950;font-weight:600}pre{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.6 Consolas,monospace}summary{cursor:pointer}@media(max-width:600px){main{padding:24px 14px}th,td{padding:9px;font-size:13px}}@media print{body{background:white}main{max-width:none;padding:0}tr{break-inside:avoid}details pre{display:block}}</style>
+<main><header><small>OFFGRID DEV / HACK IN HILLS '26 / TRACK 04</small><h1>Container boundaries.<br>Observed in deployment.</h1><p>Recorded validation / 25 October 2026</p></header><div class="hero"><strong>35 / 35</strong> named checks passed<br>Actual role-specific Compose services in a disposable Linux VM.</div>
+<h2>What was tested</h2><p class="scope">Actual disposable Compose workloads: role network segmentation with live positive controls, read-only filesystem, non-root tokens, source packaging and absence of host bind mounts. Synthetic service credentials only; no ports published.</p><p>Docker 29.9.2 · Linux-6.18.58-0-virt-x86_64-with-musl1<br>Disposable QEMU Linux VM on Windows; no host directories or credentials mounted.</p>
+<table><thead><tr><th>Check</th><th>Result</th><th>Evidence</th></tr></thead><tbody><tr><td><code>READONLY-gateway</code><br>gateway root filesystem rejects writes</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;denied&quot;: true,
+  &quot;errno&quot;: 30
+}</pre></details></td></tr><tr><td><code>PRIVS-gateway</code><br>gateway runs non-root with no-new-privileges</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;uid&quot;: 10001,
+  &quot;no_new_privs&quot;: true
+}</pre></details></td></tr><tr><td><code>SOCKET-gateway</code><br>gateway has no host bind mount or Docker socket</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;bind_mounts&quot;: 0
+}</pre></details></td></tr><tr><td><code>LIMITS-gateway</code><br>gateway kernel cgroup reports its CPU, memory and process budgets</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;pids.max&quot;: &quot;64&quot;,
+  &quot;memory.max&quot;: &quot;268435456&quot;,
+  &quot;cpu.max&quot;: &quot;50000 100000&quot;
+}</pre></details></td></tr><tr><td><code>READONLY-red</code><br>red root filesystem rejects writes</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;denied&quot;: true,
+  &quot;errno&quot;: 30
+}</pre></details></td></tr><tr><td><code>PRIVS-red</code><br>red runs non-root with no-new-privileges</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;uid&quot;: 10001,
+  &quot;no_new_privs&quot;: true
+}</pre></details></td></tr><tr><td><code>SOCKET-red</code><br>red has no host bind mount or Docker socket</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;bind_mounts&quot;: 0
+}</pre></details></td></tr><tr><td><code>LIMITS-red</code><br>red kernel cgroup reports its CPU, memory and process budgets</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;pids.max&quot;: &quot;64&quot;,
+  &quot;memory.max&quot;: &quot;134217728&quot;,
+  &quot;cpu.max&quot;: &quot;50000 100000&quot;
+}</pre></details></td></tr><tr><td><code>READONLY-blue</code><br>blue root filesystem rejects writes</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;denied&quot;: true,
+  &quot;errno&quot;: 30
+}</pre></details></td></tr><tr><td><code>PRIVS-blue</code><br>blue runs non-root with no-new-privileges</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;uid&quot;: 10001,
+  &quot;no_new_privs&quot;: true
+}</pre></details></td></tr><tr><td><code>SOCKET-blue</code><br>blue has no host bind mount or Docker socket</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;bind_mounts&quot;: 0
+}</pre></details></td></tr><tr><td><code>LIMITS-blue</code><br>blue kernel cgroup reports its CPU, memory and process budgets</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;pids.max&quot;: &quot;64&quot;,
+  &quot;memory.max&quot;: &quot;134217728&quot;,
+  &quot;cpu.max&quot;: &quot;50000 100000&quot;
+}</pre></details></td></tr><tr><td><code>READONLY-target</code><br>target root filesystem rejects writes</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;denied&quot;: true,
+  &quot;errno&quot;: 30
+}</pre></details></td></tr><tr><td><code>PRIVS-target</code><br>target runs non-root with no-new-privileges</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;uid&quot;: 10001,
+  &quot;no_new_privs&quot;: true
+}</pre></details></td></tr><tr><td><code>SOCKET-target</code><br>target has no host bind mount or Docker socket</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;bind_mounts&quot;: 0
+}</pre></details></td></tr><tr><td><code>LIMITS-target</code><br>target kernel cgroup reports its CPU, memory and process budgets</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;pids.max&quot;: &quot;64&quot;,
+  &quot;memory.max&quot;: &quot;134217728&quot;,
+  &quot;cpu.max&quot;: &quot;50000 100000&quot;
+}</pre></details></td></tr><tr><td><code>NAMESPACE-mnt</code><br>All four services have distinct mnt namespaces</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;gateway&quot;: &quot;mnt:[4026532372]&quot;,
+  &quot;red&quot;: &quot;mnt:[4026532254]&quot;,
+  &quot;blue&quot;: &quot;mnt:[4026532313]&quot;,
+  &quot;target&quot;: &quot;mnt:[4026532195]&quot;
+}</pre></details></td></tr><tr><td><code>NAMESPACE-pid</code><br>All four services have distinct pid namespaces</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;gateway&quot;: &quot;pid:[4026532375]&quot;,
+  &quot;red&quot;: &quot;pid:[4026532257]&quot;,
+  &quot;blue&quot;: &quot;pid:[4026532316]&quot;,
+  &quot;target&quot;: &quot;pid:[4026532198]&quot;
+}</pre></details></td></tr><tr><td><code>NAMESPACE-net</code><br>All four services have distinct net namespaces</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;gateway&quot;: &quot;net:[4026532377]&quot;,
+  &quot;red&quot;: &quot;net:[4026532259]&quot;,
+  &quot;blue&quot;: &quot;net:[4026532318]&quot;,
+  &quot;target&quot;: &quot;net:[4026532200]&quot;
+}</pre></details></td></tr><tr><td><code>CONTROL-red</code><br>Gateway can reach healthy red</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: true
+}</pre></details></td></tr><tr><td><code>RED-TO-BLUE</code><br>red cannot connect directly to blue</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>RED-TO-TARGET</code><br>red cannot connect directly to target</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>CONTROL-blue</code><br>Gateway can reach healthy blue</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: true
+}</pre></details></td></tr><tr><td><code>BLUE-TO-RED</code><br>blue cannot connect directly to red</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>BLUE-TO-TARGET</code><br>blue cannot connect directly to target</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>CONTROL-target</code><br>Gateway can reach healthy target</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: true
+}</pre></details></td></tr><tr><td><code>TARGET-TO-RED</code><br>target cannot connect directly to red</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>TARGET-TO-BLUE</code><br>target cannot connect directly to blue</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;connected&quot;: false,
+  &quot;errno&quot;: 101,
+  &quot;type&quot;: &quot;OSError&quot;
+}</pre></details></td></tr><tr><td><code>RED-SOURCE</code><br>Red image excludes Blue policy and target/coordinator code</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;files&quot;: [
+    &quot;participants.py&quot;,
+    &quot;red_cases.json&quot;
+  ]
+}</pre></details></td></tr><tr><td><code>BLUE-SOURCE</code><br>Blue image excludes Red catalog and target/coordinator code</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;files&quot;: [
+    &quot;participants.py&quot;,
+    &quot;policy.py&quot;
+  ]
+}</pre></details></td></tr><tr><td><code>TARGET-SOURCE</code><br>Target image excludes both participant implementations and coordinator code</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;files&quot;: [
+    &quot;fixture_runtime.py&quot;,
+    &quot;target_worker.py&quot;
+  ]
+}</pre></details></td></tr><tr><td><code>GATEWAY-AUTH</code><br>Running gateway rejects unauthenticated API access</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;status&quot;: 401
+}</pre></details></td></tr><tr><td><code>CROSS-TOKEN</code><br>Running Blue rejects the Red service credential</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;status&quot;: 401
+}</pre></details></td></tr><tr><td><code>CORE-FLOW</code><br>Containerized gateway, Red, Blue and target complete the fixed fixture suite</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;unauthorized_status&quot;: 401,
+  &quot;run_status&quot;: 200,
+  &quot;counts&quot;: {
+    &quot;allowed&quot;: 1,
+    &quot;blocked&quot;: 4,
+    &quot;held&quot;: 1,
+    &quot;failed&quot;: 0
+  },
+  &quot;audit_valid&quot;: true,
+  &quot;audit_records&quot;: 6,
+  &quot;cross_role_credential_status&quot;: 401
+}</pre></details></td></tr><tr><td><code>CORE-AUDIT</code><br>Containerized fixture decisions have a valid audit chain</td><td class="pass">Passed</td><td><details><summary>Observed data</summary><pre>{
+  &quot;valid&quot;: true,
+  &quot;records&quot;: 6
+}</pre></details></td></tr></tbody></table>
+<h2>Limits</h2><ul><li>Internet egress to an external destination</li><li>Kernel escape resistance</li><li>Live provider deployment</li><li>Local ONNX/Ollama deployment inside containers</li></ul><ul><li>Validation completed on 25 October 2026 in the stated disposable Linux VM on Windows.</li><li>The normal Windows gateway and ONNX/Ollama processes are not inside these containers.</li><li>Swap-limit support was unavailable in this guest. The reported memory, CPU and process-budget checks passed.</li><li>This is a recorded deployment test result from a trusted operator, not a signed attestation or certification.</li></ul>
+<h2>Reproduce</h2><pre>python verify_containers.py --output container-proof.json</pre><p>Requires a working Docker Engine and Compose. It uses synthetic credentials, no published ports and a disposable project/volume. The Windows presentation preview remains a separate local process.</p>
+<details><summary>Image identities and checked source hashes</summary><pre>{
+  &quot;image_ids&quot;: {
+    &quot;gateway&quot;: &quot;sha256:68780be60be54f75167fbcd3725cbb9bacf69070e9685161cc6e069a1264e12e&quot;,
+    &quot;red&quot;: &quot;sha256:10054fd6b42f15da6d1a5fcecf4d22e410a9d9c315be24e411ef321bbebb9fdc&quot;,
+    &quot;blue&quot;: &quot;sha256:91ec5ac7cda118e88adcfe1435120934ef54e0871256317ba55853942dc221e1&quot;,
+    &quot;target&quot;: &quot;sha256:3b2d1734f7b1b56a51438b720091f7df5d687d25db1174b343bd6cf9d15b59d1&quot;
+  },
+  &quot;source_sha256&quot;: {
+    &quot;Dockerfile&quot;: &quot;b06824954c2d4edeaaa2cf64ad85c53715d149b911fac3c452342215a9a871d7&quot;,
+    &quot;compose.yaml&quot;: &quot;2434db7832f6058c090df453423e8b04130f772e994a1534ba2bc2ec4d033d93&quot;,
+    &quot;.dockerignore&quot;: &quot;016b9fe99a7e064dc29d5510620a5df645eb964f7c2f7c2728180b5fb3baff5a&quot;,
+    &quot;models.lock.json&quot;: &quot;bb8e13432e6f784b6011dc34898429868627d47c4f5a8e42659ec17da7de59c4&quot;,
+    &quot;target_worker.py&quot;: &quot;b00941053dd65a69cddb278c27ed1ecdc465384203d7ed1c7b06febab5c11215&quot;,
+    &quot;fixture_runtime.py&quot;: &quot;71d6a31a3e6496573527cdf436b78f926fba757a23607361246084bae33a3a3e&quot;,
+    &quot;windows_boundary.py&quot;: &quot;907c0569c22b5546a85d92820123cc7724bb4cd61332907ac5b24a02d38029bc&quot;,
+    &quot;verify_proof.py&quot;: &quot;dff67dfda9fe4714c7ef4aa5df08649bfbe2c43c53294f0153875d4fa1e6beb3&quot;,
+    &quot;verify_containers.py&quot;: &quot;cf935b0d609c432ff1903e917095ea625e2a86b6fbbec6ff1870c36b508098a2&quot;,
+    &quot;setup_models.py&quot;: &quot;de5fe42faa35fceb1ea61ef256b0f8d275c6ea0979c09f4733b62b53ee5d9c5a&quot;,
+    &quot;server.py&quot;: &quot;03c211e718e3a25a7e3f98e033c23e41ff5c79926248cd09e7b8db33af8282d5&quot;,
+    &quot;scenarios.py&quot;: &quot;dae8791f7fbd10853c8b92f9483ca1d78785b3566fad20714eaef46a2452a51f&quot;,
+    &quot;red_ml.py&quot;: &quot;e5112215014768e900face2e0cbecc4f49bce3d3a98891424bb37d0260acd568&quot;,
+    &quot;proofs.py&quot;: &quot;687c89a3c1bce34eade49c8fc44bbe2bbf215e32d2901d695a2a092924fadf63&quot;,
+    &quot;policy.py&quot;: &quot;04af7567f9c1ea8ed8b68e3f9002198d182272b906dac3f940f466cb1e918c5c&quot;,
+    &quot;participants.py&quot;: &quot;ce1c925d0532395048fd9fa7ff505f8ad56021dca962c008f65fd780d2486c9f&quot;,
+    &quot;ml_runtime.py&quot;: &quot;6fc0f0d1a7fb05462046f9a029af40630d230da805126003958f4c6ae0a2ecec&quot;,
+    &quot;ml_lab.py&quot;: &quot;0a6a30ea476117aa72421b3d61a5e6a19b799ccca2f42ea0fea32e93f1e7f75f&quot;,
+    &quot;local_target.py&quot;: &quot;1051de975ada6a590ac4c605636ccc225ae41b7d8c0c4b984a517f6e22e3e477&quot;,
+    &quot;evidence.py&quot;: &quot;bbab338b98aa8d8ed22278729654778ecb2139cf887ae6cd99c949dd715b630b&quot;,
+    &quot;envfile.py&quot;: &quot;9897f7cdc78f53ffde176d4706c60067d29517cdb76cc0f36abdc189e57089b0&quot;,
+    &quot;engine.py&quot;: &quot;f6ef867bdcfa90764bd69f092722e5a9c76ee28e420fe582e2fa81404e736757&quot;,
+    &quot;duel_cases.py&quot;: &quot;0d5ad5f65c6ac18ef7f459fb8444fe939275657eb5f102b0fbf42eb358df5dfe&quot;,
+    &quot;doctor.py&quot;: &quot;d125016e4d10c44ce8e379758478085f189b88c610496c9c5e519cb5ba9030e6&quot;,
+    &quot;catalog.py&quot;: &quot;4f2c5f84397bbd542e217b13bffe9e7e46b26bcba3142a8e65fd413bfdd02084&quot;,
+    &quot;build_red_catalog.py&quot;: &quot;865acd24431ec1abffcaee491577c109870eec45022620add2f38f17c0c04001&quot;,
+    &quot;boundary_probe.py&quot;: &quot;81dbfb459f27f977b4892e4ec2957a3914170565fbf6b498fc8f7e2a16f2f5da&quot;,
+    &quot;blue_ml.py&quot;: &quot;a02d4e14418a4c3f108ad410f56e66305cc33197ff931e08104aae105a894df5&quot;,
+    &quot;web/style.css&quot;: &quot;c1bda196e47827306b7305ed7a9d3d5759eaad29a1b4ac0a7cb4cb5466c4fa6d&quot;,
+    &quot;web/index.html&quot;: &quot;77ae546f091d6acfd8c293a6242313e7deaed229cabddbd48f5c26159511a102&quot;,
+    &quot;web/favicon.svg&quot;: &quot;c6d1eee4301fb9ae133a7e261a28b0181ea445296d07a9acfef32ada1ed7f1e7&quot;,
+    &quot;web/app.js&quot;: &quot;4e187a4856f4a4f7b86c8e1e266c7775093e46464dd6979562691adcdcf4a37a&quot;
+  }
+}</pre></details>
+<p>The companion CONTAINER_VALIDATION.json contains the machine-readable record. This report is separate from the signed fixture/OS proof and the local Qwen ledger.</p></main></html>

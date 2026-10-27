@@ -1,0 +1,10 @@
+.git
+.data
+__pycache__
+.env
+test-results
+tests
+
+.models/
+.judge-data/
+.judge-venv/

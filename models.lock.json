@@ -1,0 +1,72 @@
+{
+  "red": {
+    "repo": "Xenova/all-MiniLM-L6-v2",
+    "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+    "task": "semantic attack retrieval",
+    "files": [
+      {
+        "remote": "onnx/model_quantized.onnx",
+        "name": "model_quantized.onnx",
+        "sha256": "afdb6f1a0e45b715d0bb9b11772f032c399babd23bfc31fed1c170afc848bdb1",
+        "bytes": 22972370
+      },
+      {
+        "remote": "tokenizer.json",
+        "name": "tokenizer.json",
+        "sha256": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0",
+        "bytes": 711661
+      },
+      {
+        "remote": "config.json",
+        "name": "config.json",
+        "sha256": "7135149f7cffa1a573466c6e4d8423ed73b62fd2332c575bf738a0d033f70df7",
+        "bytes": 650
+      },
+      {
+        "remote": "README.md",
+        "name": "README.md",
+        "sha256": "63ea99bf681a2e9eda4f6a537d5ed8fda95d1677111656da37e9cfd080c3af02",
+        "bytes": 1767
+      }
+    ],
+    "license": "Apache-2.0"
+  },
+  "blue": {
+    "repo": "protectai/deberta-v3-base-prompt-injection-v2",
+    "revision": "90c9989b1a342275dd0d1a95aad283c04e075671",
+    "task": "English prompt-injection classification",
+    "files": [
+      {
+        "remote": "onnx/model.onnx",
+        "name": "model.onnx",
+        "sha256": "f0ea7f239f765aedbde7c9e163a7cb38a79c5b8853d3f76db5152172047b228c",
+        "bytes": 738563188
+      },
+      {
+        "remote": "tokenizer.json",
+        "name": "tokenizer.json",
+        "sha256": "f0a66ad0d735d8dca9ecac4ff50fcdef4bb6adbadd2941a926844844d2c2059b",
+        "bytes": 8656744
+      },
+      {
+        "remote": "config.json",
+        "name": "config.json",
+        "sha256": "05079f4735092040b780d459027afab413faa6eeb66a548571a58832304b60bb",
+        "bytes": 994
+      },
+      {
+        "remote": "LICENSE",
+        "name": "LICENSE",
+        "sha256": "59899c6091b540582ed617e8eeaac4919dc985ccfc35459ee9752b699be5205b",
+        "bytes": 10172
+      },
+      {
+        "remote": "README.md",
+        "name": "README.md",
+        "sha256": "37221a38df1e60ad56364c39a233c75b77fa08740ecdee248d1b4e07ccc8ef5a",
+        "bytes": 6327
+      }
+    ],
+    "license": "Apache-2.0"
+  }
+}

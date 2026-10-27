@@ -1,0 +1,405 @@
+{
+  "status": "measured",
+  "checks": [
+    {
+      "id": "READONLY-gateway",
+      "name": "gateway root filesystem rejects writes",
+      "passed": true,
+      "observed": {
+        "denied": true,
+        "errno": 30
+      }
+    },
+    {
+      "id": "PRIVS-gateway",
+      "name": "gateway runs non-root with no-new-privileges",
+      "passed": true,
+      "observed": {
+        "uid": 10001,
+        "no_new_privs": true
+      }
+    },
+    {
+      "id": "SOCKET-gateway",
+      "name": "gateway has no host bind mount or Docker socket",
+      "passed": true,
+      "observed": {
+        "bind_mounts": 0
+      }
+    },
+    {
+      "id": "LIMITS-gateway",
+      "name": "gateway kernel cgroup reports its CPU, memory and process budgets",
+      "passed": true,
+      "observed": {
+        "pids.max": "64",
+        "memory.max": "268435456",
+        "cpu.max": "50000 100000"
+      }
+    },
+    {
+      "id": "READONLY-red",
+      "name": "red root filesystem rejects writes",
+      "passed": true,
+      "observed": {
+        "denied": true,
+        "errno": 30
+      }
+    },
+    {
+      "id": "PRIVS-red",
+      "name": "red runs non-root with no-new-privileges",
+      "passed": true,
+      "observed": {
+        "uid": 10001,
+        "no_new_privs": true
+      }
+    },
+    {
+      "id": "SOCKET-red",
+      "name": "red has no host bind mount or Docker socket",
+      "passed": true,
+      "observed": {
+        "bind_mounts": 0
+      }
+    },
+    {
+      "id": "LIMITS-red",
+      "name": "red kernel cgroup reports its CPU, memory and process budgets",
+      "passed": true,
+      "observed": {
+        "pids.max": "64",
+        "memory.max": "134217728",
+        "cpu.max": "50000 100000"
+      }
+    },
+    {
+      "id": "READONLY-blue",
+      "name": "blue root filesystem rejects writes",
+      "passed": true,
+      "observed": {
+        "denied": true,
+        "errno": 30
+      }
+    },
+    {
+      "id": "PRIVS-blue",
+      "name": "blue runs non-root with no-new-privileges",
+      "passed": true,
+      "observed": {
+        "uid": 10001,
+        "no_new_privs": true
+      }
+    },
+    {
+      "id": "SOCKET-blue",
+      "name": "blue has no host bind mount or Docker socket",
+      "passed": true,
+      "observed": {
+        "bind_mounts": 0
+      }
+    },
+    {
+      "id": "LIMITS-blue",
+      "name": "blue kernel cgroup reports its CPU, memory and process budgets",
+      "passed": true,
+      "observed": {
+        "pids.max": "64",
+        "memory.max": "134217728",
+        "cpu.max": "50000 100000"
+      }
+    },
+    {
+      "id": "READONLY-target",
+      "name": "target root filesystem rejects writes",
+      "passed": true,
+      "observed": {
+        "denied": true,
+        "errno": 30
+      }
+    },
+    {
+      "id": "PRIVS-target",
+      "name": "target runs non-root with no-new-privileges",
+      "passed": true,
+      "observed": {
+        "uid": 10001,
+        "no_new_privs": true
+      }
+    },
+    {
+      "id": "SOCKET-target",
+      "name": "target has no host bind mount or Docker socket",
+      "passed": true,
+      "observed": {
+        "bind_mounts": 0
+      }
+    },
+    {
+      "id": "LIMITS-target",
+      "name": "target kernel cgroup reports its CPU, memory and process budgets",
+      "passed": true,
+      "observed": {
+        "pids.max": "64",
+        "memory.max": "134217728",
+        "cpu.max": "50000 100000"
+      }
+    },
+    {
+      "id": "NAMESPACE-mnt",
+      "name": "All four services have distinct mnt namespaces",
+      "passed": true,
+      "observed": {
+        "gateway": "mnt:[4026532372]",
+        "red": "mnt:[4026532254]",
+        "blue": "mnt:[4026532313]",
+        "target": "mnt:[4026532195]"
+      }
+    },
+    {
+      "id": "NAMESPACE-pid",
+      "name": "All four services have distinct pid namespaces",
+      "passed": true,
+      "observed": {
+        "gateway": "pid:[4026532375]",
+        "red": "pid:[4026532257]",
+        "blue": "pid:[4026532316]",
+        "target": "pid:[4026532198]"
+      }
+    },
+    {
+      "id": "NAMESPACE-net",
+      "name": "All four services have distinct net namespaces",
+      "passed": true,
+      "observed": {
+        "gateway": "net:[4026532377]",
+        "red": "net:[4026532259]",
+        "blue": "net:[4026532318]",
+        "target": "net:[4026532200]"
+      }
+    },
+    {
+      "id": "CONTROL-red",
+      "name": "Gateway can reach healthy red",
+      "passed": true,
+      "observed": {
+        "connected": true
+      }
+    },
+    {
+      "id": "RED-TO-BLUE",
+      "name": "red cannot connect directly to blue",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "RED-TO-TARGET",
+      "name": "red cannot connect directly to target",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "CONTROL-blue",
+      "name": "Gateway can reach healthy blue",
+      "passed": true,
+      "observed": {
+        "connected": true
+      }
+    },
+    {
+      "id": "BLUE-TO-RED",
+      "name": "blue cannot connect directly to red",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "BLUE-TO-TARGET",
+      "name": "blue cannot connect directly to target",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "CONTROL-target",
+      "name": "Gateway can reach healthy target",
+      "passed": true,
+      "observed": {
+        "connected": true
+      }
+    },
+    {
+      "id": "TARGET-TO-RED",
+      "name": "target cannot connect directly to red",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "TARGET-TO-BLUE",
+      "name": "target cannot connect directly to blue",
+      "passed": true,
+      "observed": {
+        "connected": false,
+        "errno": 101,
+        "type": "OSError"
+      }
+    },
+    {
+      "id": "RED-SOURCE",
+      "name": "Red image excludes Blue policy and target/coordinator code",
+      "passed": true,
+      "observed": {
+        "files": [
+          "participants.py",
+          "red_cases.json"
+        ]
+      }
+    },
+    {
+      "id": "BLUE-SOURCE",
+      "name": "Blue image excludes Red catalog and target/coordinator code",
+      "passed": true,
+      "observed": {
+        "files": [
+          "participants.py",
+          "policy.py"
+        ]
+      }
+    },
+    {
+      "id": "TARGET-SOURCE",
+      "name": "Target image excludes both participant implementations and coordinator code",
+      "passed": true,
+      "observed": {
+        "files": [
+          "fixture_runtime.py",
+          "target_worker.py"
+        ]
+      }
+    },
+    {
+      "id": "GATEWAY-AUTH",
+      "name": "Running gateway rejects unauthenticated API access",
+      "passed": true,
+      "observed": {
+        "status": 401
+      }
+    },
+    {
+      "id": "CROSS-TOKEN",
+      "name": "Running Blue rejects the Red service credential",
+      "passed": true,
+      "observed": {
+        "status": 401
+      }
+    },
+    {
+      "id": "CORE-FLOW",
+      "name": "Containerized gateway, Red, Blue and target complete the fixed fixture suite",
+      "passed": true,
+      "observed": {
+        "unauthorized_status": 401,
+        "run_status": 200,
+        "counts": {
+          "allowed": 1,
+          "blocked": 4,
+          "held": 1,
+          "failed": 0
+        },
+        "audit_valid": true,
+        "audit_records": 6,
+        "cross_role_credential_status": 401
+      }
+    },
+    {
+      "id": "CORE-AUDIT",
+      "name": "Containerized fixture decisions have a valid audit chain",
+      "passed": true,
+      "observed": {
+        "valid": true,
+        "records": 6
+      }
+    }
+  ],
+  "passed": 35,
+  "total": 35,
+  "engine": "29.9.2",
+  "project": "sz-proof-40fa223ee597",
+  "image_ids": {
+    "gateway": "sha256:68780be60be54f75167fbcd3725cbb9bacf69070e9685161cc6e069a1264e12e",
+    "red": "sha256:10054fd6b42f15da6d1a5fcecf4d22e410a9d9c315be24e411ef321bbebb9fdc",
+    "blue": "sha256:91ec5ac7cda118e88adcfe1435120934ef54e0871256317ba55853942dc221e1",
+    "target": "sha256:3b2d1734f7b1b56a51438b720091f7df5d687d25db1174b343bd6cf9d15b59d1"
+  },
+  "source_sha256": {
+    "Dockerfile": "b06824954c2d4edeaaa2cf64ad85c53715d149b911fac3c452342215a9a871d7",
+    "compose.yaml": "2434db7832f6058c090df453423e8b04130f772e994a1534ba2bc2ec4d033d93",
+    ".dockerignore": "016b9fe99a7e064dc29d5510620a5df645eb964f7c2f7c2728180b5fb3baff5a",
+    "models.lock.json": "bb8e13432e6f784b6011dc34898429868627d47c4f5a8e42659ec17da7de59c4",
+    "target_worker.py": "b00941053dd65a69cddb278c27ed1ecdc465384203d7ed1c7b06febab5c11215",
+    "fixture_runtime.py": "71d6a31a3e6496573527cdf436b78f926fba757a23607361246084bae33a3a3e",
+    "windows_boundary.py": "907c0569c22b5546a85d92820123cc7724bb4cd61332907ac5b24a02d38029bc",
+    "verify_proof.py": "dff67dfda9fe4714c7ef4aa5df08649bfbe2c43c53294f0153875d4fa1e6beb3",
+    "verify_containers.py": "cf935b0d609c432ff1903e917095ea625e2a86b6fbbec6ff1870c36b508098a2",
+    "setup_models.py": "de5fe42faa35fceb1ea61ef256b0f8d275c6ea0979c09f4733b62b53ee5d9c5a",
+    "server.py": "03c211e718e3a25a7e3f98e033c23e41ff5c79926248cd09e7b8db33af8282d5",
+    "scenarios.py": "dae8791f7fbd10853c8b92f9483ca1d78785b3566fad20714eaef46a2452a51f",
+    "red_ml.py": "e5112215014768e900face2e0cbecc4f49bce3d3a98891424bb37d0260acd568",
+    "proofs.py": "687c89a3c1bce34eade49c8fc44bbe2bbf215e32d2901d695a2a092924fadf63",
+    "policy.py": "04af7567f9c1ea8ed8b68e3f9002198d182272b906dac3f940f466cb1e918c5c",
+    "participants.py": "ce1c925d0532395048fd9fa7ff505f8ad56021dca962c008f65fd780d2486c9f",
+    "ml_runtime.py": "6fc0f0d1a7fb05462046f9a029af40630d230da805126003958f4c6ae0a2ecec",
+    "ml_lab.py": "0a6a30ea476117aa72421b3d61a5e6a19b799ccca2f42ea0fea32e93f1e7f75f",
+    "local_target.py": "1051de975ada6a590ac4c605636ccc225ae41b7d8c0c4b984a517f6e22e3e477",
+    "evidence.py": "bbab338b98aa8d8ed22278729654778ecb2139cf887ae6cd99c949dd715b630b",
+    "envfile.py": "9897f7cdc78f53ffde176d4706c60067d29517cdb76cc0f36abdc189e57089b0",
+    "engine.py": "f6ef867bdcfa90764bd69f092722e5a9c76ee28e420fe582e2fa81404e736757",
+    "duel_cases.py": "0d5ad5f65c6ac18ef7f459fb8444fe939275657eb5f102b0fbf42eb358df5dfe",
+    "doctor.py": "d125016e4d10c44ce8e379758478085f189b88c610496c9c5e519cb5ba9030e6",
+    "catalog.py": "4f2c5f84397bbd542e217b13bffe9e7e46b26bcba3142a8e65fd413bfdd02084",
+    "build_red_catalog.py": "865acd24431ec1abffcaee491577c109870eec45022620add2f38f17c0c04001",
+    "boundary_probe.py": "81dbfb459f27f977b4892e4ec2957a3914170565fbf6b498fc8f7e2a16f2f5da",
+    "blue_ml.py": "a02d4e14418a4c3f108ad410f56e66305cc33197ff931e08104aae105a894df5",
+    "web/style.css": "c1bda196e47827306b7305ed7a9d3d5759eaad29a1b4ac0a7cb4cb5466c4fa6d",
+    "web/index.html": "77ae546f091d6acfd8c293a6242313e7deaed229cabddbd48f5c26159511a102",
+    "web/favicon.svg": "c6d1eee4301fb9ae133a7e261a28b0181ea445296d07a9acfef32ada1ed7f1e7",
+    "web/app.js": "4e187a4856f4a4f7b86c8e1e266c7775093e46464dd6979562691adcdcf4a37a"
+  },
+  "scope": "Actual disposable Compose workloads: role network segmentation with live positive controls, read-only filesystem, non-root tokens, source packaging and absence of host bind mounts. Synthetic service credentials only; no ports published.",
+  "unverified": [
+    "Internet egress to an external destination",
+    "Kernel escape resistance",
+    "Live provider deployment",
+    "Local ONNX/Ollama deployment inside containers"
+  ],
+  "validation_host": {
+    "os": "Linux-6.18.58-0-virt-x86_64-with-musl1",
+    "kernel": "6.18.58-0-virt",
+    "docker": "29.9.2",
+    "execution": "Disposable QEMU Linux VM on Windows; no host directories or credentials mounted."
+  },
+  "operator_notes": [
+    "Validation completed on 25 October 2026 in the stated disposable Linux VM on Windows.",
+    "The normal Windows gateway and ONNX/Ollama processes are not inside these containers.",
+    "Swap-limit support was unavailable in this guest. The reported memory, CPU and process-budget checks passed.",
+    "This is a recorded deployment test result from a trusted operator, not a signed attestation or certification."
+  ]
+}

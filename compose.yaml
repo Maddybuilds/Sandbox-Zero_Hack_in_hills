@@ -1,0 +1,71 @@
+name: sandbox-zero
+x-worker: &worker
+  build: {context: ., target: gateway}
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 64
+  mem_limit: 128m
+  cpus: 0.5
+  tmpfs: ["/tmp:size=16m,noexec,nosuid"]
+  healthcheck:
+    test: [CMD, python, -S, -c, "import socket; s=socket.create_connection(('127.0.0.1',9000),timeout=5); s.sendall(b'GET /health HTTP/1.0\\r\\nHost: localhost\\r\\n\\r\\n'); status=s.makefile('rb').readline(256); s.close(); assert status.split()[1]==b'200'"]
+    interval: 10s
+    timeout: 20s
+    retries: 5
+    start_period: 20s
+services:
+  gateway:
+    <<: *worker
+    command: [python, server.py, --host, 0.0.0.0]
+    environment:
+      SZ_MODE: containers
+      SZ_DATA: /data
+      RED_URL: http://red:9000
+      BLUE_URL: http://blue:9000
+      TARGET_URL: http://target:9000
+      SZ_ACCESS_CODE: ${SZ_ACCESS_CODE:?Run start.ps1 -Containers to create local credentials}
+      SZ_RED_TOKEN: ${SZ_RED_TOKEN:?Missing Red credential}
+      SZ_BLUE_TOKEN: ${SZ_BLUE_TOKEN:?Missing Blue credential}
+      SZ_TARGET_TOKEN: ${SZ_TARGET_TOKEN:?Missing target credential}
+    ports: ["127.0.0.1:8000:8000"]
+    networks: [red_net, blue_net, target_net]
+    volumes: [audit_data:/data]
+    mem_limit: 256m
+    healthcheck:
+      test: [CMD, python, -S, -c, "import socket; s=socket.create_connection(('127.0.0.1',8000),timeout=5); s.sendall(b'GET /health HTTP/1.0\\r\\nHost: localhost\\r\\n\\r\\n'); status=s.makefile('rb').readline(256); s.close(); assert status.split()[1]==b'200'"]
+      interval: 10s
+      timeout: 20s
+      retries: 5
+      start_period: 20s
+    depends_on:
+      red: {condition: service_healthy}
+      blue: {condition: service_healthy}
+      target: {condition: service_healthy}
+  red:
+    <<: *worker
+    build: {context: ., target: red}
+    command: [python, participants.py, --role, red, --host, 0.0.0.0, --port, "9000"]
+    environment:
+      SZ_PARTICIPANT_TOKEN: ${SZ_RED_TOKEN:?Missing Red credential}
+    networks: [red_net]
+  blue:
+    <<: *worker
+    build: {context: ., target: blue}
+    command: [python, participants.py, --role, blue, --host, 0.0.0.0, --port, "9000"]
+    environment:
+      SZ_PARTICIPANT_TOKEN: ${SZ_BLUE_TOKEN:?Missing Blue credential}
+    networks: [blue_net]
+  target:
+    <<: *worker
+    build: {context: ., target: target}
+    command: [python, target_worker.py, --host, 0.0.0.0, --port, "9000"]
+    environment:
+      SZ_PARTICIPANT_TOKEN: ${SZ_TARGET_TOKEN:?Missing target credential}
+    networks: [target_net]
+networks:
+  red_net: {internal: true}
+  blue_net: {internal: true}
+  target_net: {internal: true}
+volumes:
+  audit_data:
